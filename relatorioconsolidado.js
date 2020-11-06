@@ -13,7 +13,6 @@ function verificaLogin(){
     }
 }
 
-
 function gerarRelatorio(){
     /*
     1 - pegar as datas do formulário
@@ -42,23 +41,20 @@ function gerarRelatorio(){
          } 
      };
 
-     // 4 - invocar o backend
-     fetch("http://localhost:8088/eventos/intervalo", cabecalho)
-        .then(res   => res.json())    // se eu receber uma resposta, extraio o JSON do seu body
-        .then(lista => preencheRelatorio(lista)); // com a extração, recebo uma lista que será usada para preencher o relatorio
-}
+     fetch("http://localhost:8088/eventos/consolidado/intervalo", cabecalho)
+        .then(res => res.json())
+        .then(lista => preencheRelatorio(lista));
 
+}
 
 function preencheRelatorio(lista){
-    var txtRelatorio = ""; 
 
-    for (i=0; i < lista.length; i++){
-         var evento = lista[i];  // vou facilitar a manipulação
-        txtRelatorio += `${evento.data} - ${evento.equipamento.hostname} | ${evento.equipamento.ip} :
-                         ${evento.alarme.nome} <br>`; 
+    var txtRelatorio = "";
+    for (i=0; i<lista.length; i++){
+        var volume = lista[i];
+        txtRelatorio += `${volume.nomeAlarme} : ${volume.quantidade} <br>`;
     }
+
     document.getElementById("relatorio").innerHTML = txtRelatorio;
+
 }
-
-
-
